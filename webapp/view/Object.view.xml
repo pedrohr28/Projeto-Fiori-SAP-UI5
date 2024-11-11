@@ -1,0 +1,91 @@
+<mvc:View controllerName="acn.btpui5treinamento.controller.Object"
+	xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+	xmlns:f="sap.ui.layout.form"
+	xmlns="sap.m"
+	xmlns:smartTable="sap.ui.comp.smarttable" >
+	
+	<Page showHeader="false" showFooter="false" enableScrolling="true">
+		<content>
+			<f:SimpleForm id="SimpleFormDisplay354"
+			editable="false"
+			layout="ResponsiveGridLayout"
+			title="{i18n>produtos} {objectModel>/nome}"
+			labelSpanXL="3"
+			labelSpanL="3"
+			labelSpanM="3"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="4"
+			emptySpanL="4"
+			emptySpanM="4"
+			emptySpanS="0"
+			columnsXL="1"
+			columnsL="1"
+			columnsM="1"
+			singleContainerFullSize="false" >
+				<f:content>
+					<Label text="{i18n>id}" />
+					<Text  text="{objectModel>/id}" />
+					<Label text="{i18n>createdAt}" />
+					<Text text="{path:'objectModel>/createdAt', formatter:'.formatter.getFullDate'}" />
+					<Label text="{i18n>createdBy}" />
+					<Text text="{path:'objectModel>/createdBy', formatter:'.formatter.getInfo'}" />
+					<Label text="{i18n>modifiedAt}" />
+					<Text text="{path: 'objectModel>/modifiedAt', formatter:'.formatter.getFullDate'}" />
+					<Label text="{i18n>modifiedBy}" />
+					<Text text="{path:'objectModel>/modifiedBy', formatter:'.formatter.getInfo'}" />
+					
+				</f:content>
+			</f:SimpleForm>
+			<OverflowToolbar >
+				<ToolbarSpacer />
+				<OverflowToolbarButton icon="sap-icon://create" press="onCreateProduct" />
+				<OverflowToolbarButton icon="sap-icon://delete" press="onDeleteProduct" />
+				<OverflowToolbarButton icon="sap-icon://edit"   press="onEditProduct"	/>
+			</OverflowToolbar>
+			<Table 
+					id="smtProduct"
+					width="auto"
+					growing="false"
+					growingThreshold="20"
+					mode="SingleSelectLeft"
+                    items="{produtosModel>/produtos}"
+					>
+				<columns>
+					<Column >
+						<Text text="{i18n>ProductId}"/>
+					</Column>
+					<Column >
+						<Text text="{i18n>codProduto}"/>
+					</Column>
+					<Column >
+						<Text text="{i18n>descricaoProduto}"/>
+					</Column>
+					<Column >
+						<Text text="{i18n>fabricante}"/>
+					</Column>
+					<Column >
+						<Text text="{i18n>valorTotalProduto}"/>
+					</Column>
+					<Column >
+						<Text text="{i18n>createdAt}"/>
+					</Column>
+					<Column >
+						<Text text="{i18n>createdBy}"/>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<Text text="{produtosModel>id}" />
+						<Text text="{produtosModel>codProduto}"/>
+						<Text text="{produtosModel>descricaoProduto}"/>
+						<Text text="{produtosModel>fabricante}"/>
+						<Text text="{path: 'produtosModel>valorTotalProduto', formatter: '.formatter.currencyFormat'}"/>
+						<Text text="{path: 'produtosModel>createdAt', formatter:'.formatter.getFullDate'}"/>
+						<Text text="{path: 'produtosModel>createdBy', formatter:'.formatter.getInfo'}"/>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</content>
+	</Page>
+</mvc:View>

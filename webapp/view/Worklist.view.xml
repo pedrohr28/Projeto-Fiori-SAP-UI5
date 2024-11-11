@@ -1,0 +1,150 @@
+<mvc:View controllerName="acn.btpui5treinamento.controller.Worklist"
+	xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+	xmlns="sap.m"
+    xmlns:fb="sap.ui.comp.filterbar"
+	xmlns:smartTable="sap.ui.comp.smarttable"
+	xmlns:core="sap.ui.core"
+    >
+	<Page id="page" title="{i18n>title}" showFooter="false" showHeader="false" enableScrolling="true">
+		<content>
+			<fb:FilterBar id="filterbar" persistencyKey="myPersKey" useToolbar="false" search=".onSearch" filterChange=".onFilterChange" afterVariantLoad=".onAfterVariantLoad">
+				<fb:filterGroupItems>
+					<fb:FilterGroupItem name="name" label="{i18n>name}" groupName="Group1" visibleInFilterBar="true">
+						<fb:control>
+							<Input type="Text" value="{oFilterModel>/nome}" maxLength="60" />
+						</fb:control>
+					</fb:FilterGroupItem>
+					<fb:FilterGroupItem name="Category" label="{i18n>id}" groupName="Group1" visibleInFilterBar="true">
+						<fb:control>
+							<Input type="Text" value="{oFilterModel>/id}" maxLength="20" />
+						</fb:control>
+					</fb:FilterGroupItem>
+					<fb:FilterGroupItem name="SupplierName" label="{i18n>createdBy}" groupName="Group1" visibleInFilterBar="true">
+						<fb:control>
+							<ComboBox
+								name="Created" selectedKey="{oFilterModel>/createdBy}">
+								<items>
+									<core:Item key="system" text="{i18n>infoCreate1}"/>
+									<core:Item key="other" text="{i18n>infoCreate2}"/>
+								</items>
+							</ComboBox>
+						</fb:control>
+					</fb:FilterGroupItem>
+					<fb:FilterGroupItem name="Status" label="{i18n>status}" groupName="Group1" visibleInFilterBar="true">
+						<fb:control>
+							<ComboBox
+								name="Created" selectedKey="{oFilterModel>/status}">
+								<items>
+									<core:Item key="Pago" text="{i18n>pago}"/>
+									<core:Item key="Pendente" text="{i18n>pendente}"/>
+									<core:Item key="Recusado" text="{i18n>recusado}"/>
+								</items>
+							</ComboBox>
+						</fb:control>
+					</fb:FilterGroupItem>					
+				</fb:filterGroupItems>
+			</fb:FilterBar>
+			<smartTable:SmartTable
+							id="smtUser"
+							entitySet="Pedidos"
+							smartFilterId="smUser" 
+							useExportToExcel="true" 
+							beforeExport="onBeforeExport"
+							beforeRebindTable="onRebindTable"
+							useVariantManagement="true" 
+							useTablePersonalisation="true" 
+							header="{i18n>pedidos}"
+							showRowCount="true" 
+							persistencyKey="SmartTableRefApp_Explored"
+							enableAutoBinding="true" 
+							class="sapUiResponsiveContentPadding"
+							tableType="ResponsiveTable" demandPopin="true" enableAutoColumnWidth="true" >
+							<smartTable:customToolbar>
+								<OverflowToolbar >
+									<ToolbarSpacer />
+									<OverflowToolbarButton icon="sap-icon://create" press="onCreateUser" />
+									<OverflowToolbarButton icon="sap-icon://edit" press="onEditUser" />
+									<OverflowToolbarButton icon="sap-icon://delete" press="onDeleteUser" />
+								</OverflowToolbar>
+							</smartTable:customToolbar>
+				<Table 
+					id="tbUser"
+					width="auto"
+					growing="true"
+					growingThreshold="20"
+					mode="SingleSelectLeft"
+					>
+					<columns>
+						<Column >
+							<customData>
+								<core:CustomData key="p13nData" value='\{"columnKey" : "id","columnIndex" : "0","leadingProperty" : "id","sortProperty": "id"}'/>
+							</customData>
+							<Text text="{i18n>id}"/>
+						</Column>
+						<Column >
+							<customData>
+								<core:CustomData key="p13nData" value='\{"columnKey" : "createdAt","columnIndex" : "1","leadingProperty" : "createdAt","sortProperty": "createdAt"}'/>
+							</customData>
+							<Text text="{i18n>createdAt}"/>
+						</Column>
+						<Column >
+							<customData>
+								<core:CustomData key="p13nData" value='\{"columnKey" : "createdBy","columnIndex" : "2","leadingProperty" : "createdBy","sortProperty": "createdBy"}'/>
+							</customData>
+							<Text text="{i18n>createdBy}"/>
+						</Column>
+						<Column >
+							<customData>
+								<core:CustomData key="p13nData" value='\{"columnKey" : "modifiedAt","columnIndex" : "3","leadingProperty" : "modifiedAt","sortProperty": "modifiedAt"}'/>
+							</customData>
+							<Text text="{i18n>modifiedAt}"/>
+						</Column>
+						<Column >
+							<customData>
+								<core:CustomData key="p13nData" value='\{"columnKey" : "modifiedBy","columnIndex" : "4","leadingProperty" : "modifiedBy","sortProperty": "modifiedBy"}'/>
+							</customData>
+							<Text text="{i18n>modifiedBy}"/>
+						</Column>
+						<Column >
+							<customData>
+								<core:CustomData key="p13nData" value='\{"columnKey" : "nome","columnIndex" : "5","leadingProperty" : "nome","sortProperty": "nome"}'/>
+							</customData>
+							<Text text="{i18n>name}"/>
+						</Column>
+						<Column >
+							<customData>
+								<core:CustomData key="p13nData" value='\{"columnKey" : "cidade","columnIndex" : "6","leadingProperty" : "cidade","sortProperty": "cidade"}'/>
+							</customData>
+							<Text text="{i18n>cidade}"/>
+						</Column>
+						<Column >
+							<customData>
+								<core:CustomData key="p13nData" value='\{"columnKey" : "valorTotal","columnIndex" : "7","leadingProperty" : "valorTotal","sortProperty": "valorTotal"}'/>
+							</customData>
+							<Text text="{i18n>valorTotal}"/>
+						</Column>
+						<Column >
+							<customData>
+								<core:CustomData key="p13nData" value='\{"columnKey" : "status","columnIndex" : "8","leadingProperty" : "status","sortProperty": "status"}'/>
+							</customData>
+							<Text text="{i18n>status}"/>
+						</Column>
+					</columns>
+					<items>
+						<ColumnListItem type="Navigation" press="onCallNextScreen">
+							<Text text="{id}"/>
+							<Text text="{path: 'createdAt', formatter: '.formatter.getFullDate'}"/>
+							<ObjectStatus text="{path: 'createdBy', formatter:'.formatter.getInfo'}" icon="{path: 'createdBy', formatter: '.formatter.getIcon'}" state="{path: 'createdBy', formatter: '.formatter.getState'}" />
+							<Text text="{path: 'modifiedAt', formatter:'.formatter.getFullDate'}"/>
+							<ObjectStatus text="{path: 'modifiedBy', formatter:'.formatter.getInfo'}" icon="{path: 'modifiedBy', formatter: '.formatter.getIcon'}" state="{path: 'modifiedBy', formatter: '.formatter.getState'}" />
+							<Text text="{nome}"/>
+							<Text text="{cidade}"/>
+							<Text text="{path: 'valorTotal', formatter: '.formatter.currencyFormat'}"/>
+							<ObjectStatus text="{path: 'status', formatter:'.formatter.getStatePaid'}" icon="{path: 'status', formatter: '.formatter.getIconS'}" state="{path: 'status', formatter: '.formatter.getStateS'}" />
+						</ColumnListItem>
+					</items>
+				</Table>
+			</smartTable:SmartTable>
+		</content>
+	</Page>
+</mvc:View>

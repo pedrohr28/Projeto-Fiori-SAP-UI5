@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Validation.V1.xml" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Alias="Validation" Namespace="Org.OData.Validation.V1"/>
+    </edmx:Reference>
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="Database" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <Annotation Term="Core.Links">
+                <Collection>
+                    <Record>
+                        <PropertyValue Property="rel" String="author"/>
+                        <PropertyValue Property="href" String="https://cap.cloud.sap"/>
+                    </Record>
+                </Collection>
+            </Annotation>
+            <EntityContainer Name="EntityContainer" m:IsDefaultEntityContainer="true">
+                <EntitySet Name="Pedidos" EntityType="Database.Pedidos"/>
+                <EntitySet Name="Produtos" EntityType="Database.Produtos"/>
+                <EntitySet Name="Servicos" EntityType="Database.Servicos"/>
+                <FunctionImport Name="usersWithStores" ReturnType="Collection(Database.usersReport)" m:HttpMethod="GET"/>
+                <AssociationSet Name="Pedidos_produto" Association="Database.Pedidos_produto">
+                    <End Role="Pedidos" EntitySet="Pedidos"/>
+                    <End Role="Produtos" EntitySet="Produtos"/>
+                </AssociationSet>
+                <AssociationSet Name="Pedidos_servico" Association="Database.Pedidos_servico">
+                    <End Role="Pedidos" EntitySet="Pedidos"/>
+                    <End Role="Servicos" EntitySet="Servicos"/>
+                </AssociationSet>
+            </EntityContainer>
+            <EntityType Name="Pedidos">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="id" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="dataOrdem" Type="Edm.DateTime" sap:display-format="Date"/>
+                <Property Name="nome" Type="Edm.String" MaxLength="100"/>
+                <Property Name="endereco" Type="Edm.String" MaxLength="100"/>
+                <Property Name="cidade" Type="Edm.String" MaxLength="80"/>
+                <Property Name="estado" Type="Edm.String" MaxLength="30"/>
+                <Property Name="formPagamento" Type="Edm.Int32"/>
+                <Property Name="dataEntrega" Type="Edm.DateTime" sap:display-format="Date"/>
+                <Property Name="status" Type="Edm.String" MaxLength="30"/>
+                <Property Name="valorTotal" Type="Edm.Decimal" Precision="9" Scale="2"/>
+                <NavigationProperty Name="produto" Relationship="Database.Pedidos_produto" FromRole="Pedidos" ToRole="Produtos"/>
+                <NavigationProperty Name="servico" Relationship="Database.Pedidos_servico" FromRole="Pedidos" ToRole="Servicos"/>
+            </EntityType>
+            <EntityType Name="Produtos">
+                <Key>
+                    <PropertyRef Name="codProduto"/>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="codProduto" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="descricaoProduto" Type="Edm.String" MaxLength="100"/>
+                <Property Name="quantidadeProduto" Type="Edm.Int32"/>
+                <Property Name="valorUnitarioProduto" Type="Edm.Decimal" Precision="9" Scale="2"/>
+                <Property Name="valorTotalProduto" Type="Edm.Decimal" Precision="9" Scale="2"/>
+                <Property Name="id" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="categoria" Type="Edm.String" MaxLength="100"/>
+                <Property Name="fabricante" Type="Edm.String" MaxLength="100"/>
+            </EntityType>
+            <EntityType Name="Servicos">
+                <Key>
+                    <PropertyRef Name="codServico"/>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="codServico" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="descricaoServico" Type="Edm.String" MaxLength="100"/>
+                <Property Name="quantidadeServico" Type="Edm.Int32"/>
+                <Property Name="valorUnitarioServico" Type="Edm.Decimal" Precision="9" Scale="2"/>
+                <Property Name="valorTotalServico" Type="Edm.Decimal" Precision="9" Scale="2"/>
+                <Property Name="id" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="ipoServico" Type="Edm.String" MaxLength="100"/>
+                <Property Name="prestador" Type="Edm.String" MaxLength="100"/>
+            </EntityType>
+            <ComplexType Name="usersReport">
+                <Property Name="id" Type="Edm.Int32"/>
+                <Property Name="dataOrdem" Type="Edm.DateTime" sap:display-format="Date"/>
+                <Property Name="nome" Type="Edm.String" MaxLength="100"/>
+                <Property Name="endereco" Type="Edm.String" MaxLength="100"/>
+                <Property Name="cidade" Type="Edm.String" MaxLength="80"/>
+                <Property Name="estado" Type="Edm.String" MaxLength="30"/>
+                <Property Name="dataEntrega" Type="Edm.DateTime" sap:display-format="Date"/>
+                <Property Name="status" Type="Edm.String" MaxLength="30"/>
+                <Property Name="codProduto" Type="Edm.Int32"/>
+                <Property Name="descricaoProduto" Type="Edm.String" MaxLength="100"/>
+                <Property Name="quantidadeProduto" Type="Edm.Int32"/>
+                <Property Name="valorUnitarioProduto" Type="Edm.Decimal" Precision="9" Scale="2"/>
+                <Property Name="valorTotalProduto" Type="Edm.Decimal" Precision="9" Scale="2"/>
+                <Property Name="categoria" Type="Edm.String" MaxLength="100"/>
+                <Property Name="fabricante" Type="Edm.String" MaxLength="100"/>
+                <Property Name="codServico" Type="Edm.Int32"/>
+                <Property Name="descricaoServico" Type="Edm.String" MaxLength="100"/>
+                <Property Name="quantidadeServico" Type="Edm.Int32"/>
+                <Property Name="valorUnitarioServico" Type="Edm.Decimal" Precision="9" Scale="2"/>
+                <Property Name="valorTotalServico" Type="Edm.Decimal" Precision="9" Scale="2"/>
+                <Property Name="tipoServico" Type="Edm.String" MaxLength="100"/>
+                <Property Name="prestador" Type="Edm.String" MaxLength="100"/>
+            </ComplexType>
+            <Association Name="Pedidos_produto">
+                <End Role="Pedidos" Type="Database.Pedidos" Multiplicity="*"/>
+                <End Role="Produtos" Type="Database.Produtos" Multiplicity="*"/>
+            </Association>
+            <Association Name="Pedidos_servico">
+                <End Role="Pedidos" Type="Database.Pedidos" Multiplicity="*"/>
+                <End Role="Servicos" Type="Database.Servicos" Multiplicity="*"/>
+            </Association>
+            <Annotations Target="Database.Pedidos/createdAt" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Created On"/>
+            </Annotations>
+            <Annotations Target="Database.Pedidos/createdBy" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Core.Description" String="User's unique ID"/>
+                <Annotation Term="Common.Label" String="Created By"/>
+            </Annotations>
+            <Annotations Target="Database.Pedidos/modifiedAt" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Changed On"/>
+            </Annotations>
+            <Annotations Target="Database.Pedidos/modifiedBy" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Core.Description" String="User's unique ID"/>
+                <Annotation Term="Common.Label" String="Changed By"/>
+            </Annotations>
+            <Annotations Target="Database.Pedidos/formPagamento" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Validation.AllowedValues">
+                    <Collection>
+                        <Record Type="Validation.AllowedValue">
+                            <Annotation Term="Core.SymbolicName" String="Debito"/>
+                            <PropertyValue Property="Value" Int="1"/>
+                        </Record>
+                        <Record Type="Validation.AllowedValue">
+                            <Annotation Term="Core.SymbolicName" String="Credito"/>
+                            <PropertyValue Property="Value" Int="2"/>
+                        </Record>
+                        <Record Type="Validation.AllowedValue">
+                            <Annotation Term="Core.SymbolicName" String="Dinheiro"/>
+                            <PropertyValue Property="Value" Int="3"/>
+                        </Record>
+                        <Record Type="Validation.AllowedValue">
+                            <Annotation Term="Core.SymbolicName" String="Pix"/>
+                            <PropertyValue Property="Value" Int="4"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="Database.Produtos/createdAt" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Created On"/>
+            </Annotations>
+            <Annotations Target="Database.Produtos/createdBy" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Core.Description" String="User's unique ID"/>
+                <Annotation Term="Common.Label" String="Created By"/>
+            </Annotations>
+            <Annotations Target="Database.Produtos/modifiedAt" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Changed On"/>
+            </Annotations>
+            <Annotations Target="Database.Produtos/modifiedBy" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Core.Description" String="User's unique ID"/>
+                <Annotation Term="Common.Label" String="Changed By"/>
+            </Annotations>
+            <Annotations Target="Database.Servicos/createdAt" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Created On"/>
+            </Annotations>
+            <Annotations Target="Database.Servicos/createdBy" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Core.Description" String="User's unique ID"/>
+                <Annotation Term="Common.Label" String="Created By"/>
+            </Annotations>
+            <Annotations Target="Database.Servicos/modifiedAt" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Changed On"/>
+            </Annotations>
+            <Annotations Target="Database.Servicos/modifiedBy" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Core.Description" String="User's unique ID"/>
+                <Annotation Term="Common.Label" String="Changed By"/>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
